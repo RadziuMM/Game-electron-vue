@@ -1,20 +1,20 @@
 <template>
   <div id="app">
-    <Menu />
+    <div class="dark" id="gammaD"></div>
+    <router-view/>
   </div>
 </template>
 <script>
-import Menu from '@/views/Menu.vue';
-
 export default {
   name: 'Home',
   components: {
-    Menu,
+  },
+  mounted() {
+    window.oncontextmenu = function x() {
+      return false;
+    };
   },
 };
 </script>
 <style lang="scss">
-body{
-  background-color: #303030;
-}
 </style>

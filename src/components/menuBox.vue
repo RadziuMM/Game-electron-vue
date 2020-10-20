@@ -1,6 +1,6 @@
 <template>
   <div class="box boxBlind" :id="index" >
-    <div @click="close()">
+    <div @click="action()">
       <img src='../assets/box.png'/>
       <div class="string" >{{msg}}</div>
     </div>
@@ -8,6 +8,10 @@
 </template>
 
 <script>
+import routes from '@/router/index';
+// eslint-disable-next-line global-require
+const audio = new Audio(require('@/assets/music.mp3'));
+
 export default {
   name: 'menuBox',
   data() {
@@ -17,8 +21,29 @@ export default {
   props: ['index', 'msg'],
   mounted() {
     this.flash();
+    this.music();
   },
   methods: {
+    music() {
+      audio.play();
+      audio.volume = 0.02;
+      const sliderV = document.getElementById('volume');
+      const outputV = document.getElementById('volumeH');
+      outputV.innerHTML = sliderV.value;
+      if (sliderV.value < 10) {
+        outputV.innerHTML = `0${sliderV.value}`;
+      }
+      sliderV.oninput = function x() {
+        outputV.innerHTML = (this.value);
+        if (this.value < 100) {
+          audio.volume = `0.${this.value}`;
+          if (this.value < 10) {
+            audio.volume = `0.0${this.value}`;
+            outputV.innerHTML = `0${sliderV.value}`;
+          }
+        }
+      };
+    },
     flash() {
       const name = `${this.index}`;
       document.getElementById(name).style.opacity = '0';
@@ -26,10 +51,21 @@ export default {
         document.getElementById(name).style.opacity = '1';
       }, 3600);
     },
-    close() {
+    action() {
+      if (this.index === 'box2') {
+        this.settings();
+      }
       if (this.index === 'box4') {
         window.close();
       }
+      if (this.index === 'box0') {
+        audio.pause();
+        audio.currentTime = 0;
+        routes.push({ path: 'Game' });
+      }
+    },
+    settings() {
+      document.getElementById('settings').style.top = '-5vh';
     },
   },
 };

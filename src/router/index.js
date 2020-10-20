@@ -10,11 +10,11 @@ const routes = [
     name: 'Menu',
     component: Menu,
   },
-  // {
-  //   path: '/about',
-  //   name: 'About',
-  //   component: () => import(/* webpackChunkName: "about" */ '../views/About.vue'),
-  // },
+  {
+    path: '/Game',
+    name: 'Game',
+    component: () => import('../views/Game.vue'),
+  },
 ];
 
 const router = new VueRouter({
